@@ -1,0 +1,90 @@
+import library as lb     
+count=0
+count_loop=0
+loop = False
+while not at_goal():
+    if loop:
+        if count_loop==4: #Can't escape through the straight path
+            turn_left()
+            if front_is_clear():
+                loop=False
+                count=0
+                count_loop=0
+                move()
+            else:
+                turn_right()
+                turn_right()
+                move()
+        elif front_is_clear():
+            loop=False
+            count=0
+            count_loop=0
+            move()
+        else:
+            lb.turn_right()
+            count_loop+=1
+            move()
+        
+    elif count==4:
+       loop=True
+    elif not wall_on_right(): #if floor not there
+        lb.turn_right()
+        move()
+        count+=1
+    elif front_is_clear(): #if wall not in front
+        count=0
+        move()
+    else: #if floor and wall present
+        count=0
+        turn_left()
+
+################################################################
+# WARNING: Do not change this comment.
+# Library Code is below.
+################################################################
+def turn_around():
+    turn_left()
+    turn_left()
+    
+def turn_right():
+    turn_left()
+    turn_left()
+    turn_left()
+        
+def jump():
+    turn_left()
+    move()
+    turn_right()
+    move()
+    turn_right()
+    move()
+    turn_left()
+
+    
+def move_up():
+    turn_left()
+    while wall_on_right():
+        move()
+    turn_right()
+    
+def move_down():
+    turn_right()
+    while front_is_clear():
+        move()
+    turn_left()
+    
+    
+def jump_var():
+    move_up()
+    move()
+    move_down()
+
+
+################################################################
+# The following Things were already provided
+# move()
+# turn_left()
+# wall_on_right()
+# front_is_clear()
+# at_goal()
+################################################################
