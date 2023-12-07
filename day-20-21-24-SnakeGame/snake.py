@@ -8,6 +8,9 @@ class Snake:
 
     def __init__(self):
         self.segments = []
+        self.create_snake()
+
+    def create_snake(self):
         for i in range(3):
             self.add_segment(STARTING_POSITIONS[i])
         self.head = self.segments[0]
@@ -42,3 +45,9 @@ class Snake:
         self.head.forward(MOVE_DISTANCE)
         self.segments.insert(1, self.segments[-1])
         self.segments.pop()
+
+    def reset(self):
+        for segment in self.segments[::-1]:
+            segment.ht()
+        self.segments.clear()
+        self.create_snake()
