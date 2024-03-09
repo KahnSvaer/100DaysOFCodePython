@@ -13,22 +13,14 @@ letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
-unshuffled_password = []
-shuffled_password = []
-password = ""
+password_list = []
 
-unshuffled_password.extend(random.choices(letters, k=num_letters))
-unshuffled_password.extend(random.choices(numbers, k=num_symbols))
-unshuffled_password.extend(random.choices(symbols, k=num_numbers))
+password_list.extend(random.choices(letters, k=num_letters))
+password_list.extend(random.choices(numbers, k=num_symbols))
+password_list.extend(random.choices(symbols, k=num_numbers))
 
-random.shuffle(unshuffled_password)
+random.shuffle(password_list)
 
-for index in range(num_numbers+num_symbols+num_letters):
-    element = random.choice(unshuffled_password)
-    shuffled_password.append(element)
-    unshuffled_password.remove(element)
-
-for str in shuffled_password:
-    password += str
+password = "".join(password_list)
 
 print(f"Here's your password: {password}")
