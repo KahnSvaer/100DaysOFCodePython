@@ -24,7 +24,7 @@ while not flag:
     for racer in turtles:
         racer.move()
         if racer.is_finished():
-            win_color = racer.color()
+            win_color = racer.color
             flag = True
 
 if user_bet.lower() == win_color.lower():
