@@ -32,7 +32,6 @@ def reset():
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_timer():
     global timer_start
-    global reps
     time = time_ui_manager(reps, timer_start)
     if not timer_start:
         timer_start = True
