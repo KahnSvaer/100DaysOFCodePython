@@ -10,7 +10,7 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 CHECK_MARK = "✔"
-REFRESH_TIME = 1000
+REFRESH_TIME = 1
 
 timer_start = False
 reps = 1
@@ -32,7 +32,6 @@ def reset():
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_timer():
     global timer_start
-    global reps
     time = time_ui_manager(reps, timer_start)
     if not timer_start:
         timer_start = True
