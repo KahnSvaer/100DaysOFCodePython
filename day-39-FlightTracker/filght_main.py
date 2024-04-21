@@ -1,6 +1,7 @@
 from data_manager import DataManager
 from notification_manager import NotificationManager
 from flight_search import FlightSearch
+from flight_data import FlightData
 
 from twilio.rest import Client
 import os
@@ -24,10 +25,11 @@ client = Client(TWILIO_SID, TWILIO_TOKEN)
 TWILIO_PHONE_NUMER = os.environ.get("TWILIO_PHONE_NUMER")
 PSNL_PHONE_NUMBER = os.environ.get("PSNL_PHONE_NUMBER")
 
+CURRENCY = 'GBP'
 
 data_manager = DataManager(SHEETY_ENDPOINT, SHEETY_HEADER)
-flight_search = FlightSearch(KIWI_ENDPOINT, KIWI_HEADER)
-notification_manager = NotificationManager(client, TWILIO_PHONE_NUMER, PSNL_PHONE_NUMBER)
+flight_search = FlightSearch(KIWI_ENDPOINT, KIWI_HEADER, CURRENCY)
+notification_manager = NotificationManager(client, TWILIO_PHONE_NUMER, PSNL_PHONE_NUMBER, CURRENCY)
 
 sheet_data = data_manager.get_data().json().get("prices")
 city_code = [flight_search.get_city_code(x.get("city")) for x in sheet_data]
@@ -37,4 +39,8 @@ city_code = [flight_search.get_city_code(x.get("city")) for x in sheet_data]
 #     data_manager.update_data(sheet_data[i])
 
 parsed = flight_search.get_cheap_flight(from_city="London", city_code_list=city_code)
-notification_manager.check_flight(flight_search_result=parsed, min_list=sheet_data)
+flights = []
+for flight in parsed.get("data"):
+    flight_info = FlightData(flight)
+    flights.append(flight_info)
+notification_manager.check_flight(flights_list=flights, min_list=sheet_data)

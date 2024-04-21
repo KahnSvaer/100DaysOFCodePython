@@ -19,17 +19,17 @@ class FlightSearch:
         response.raise_for_status()
         return response.json().get("locations")[0].get("code")
 
-    def get_cheap_flight(self, from_city: str, city_code_list: list):
+    def get_cheap_flight(self, from_city: str, to_city: str, stop_overs=0):
         json = {
-            "fly_from": f"city:{self.get_city_code(from_city.upper())}",
-            "fly_to": ','.join(city_code_list),
+            "fly_from": from_city,
+            "fly_to": to_city,
             "date_from": (datetime.datetime.now().date()+datetime.timedelta(1)).strftime("%d/%m/%Y"),
             "date_to": (datetime.datetime.now().date()+datetime.timedelta(180)).strftime("%d/%m/%Y"),
             "nights_in_dst_from": 7,
             "nights_in_dst_to": 28,
             "one_for_city": 1,
             "curr": self.currency,
-            "max_stopovers": 0
+            "max_stopovers": 2*stop_overs
         }
         response = requests.get(url=self.search_endpoint, params=json, headers=self.header)
         return response.json()
